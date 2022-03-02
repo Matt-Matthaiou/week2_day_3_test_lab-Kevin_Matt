@@ -6,6 +6,7 @@ class Pub:
         self.name = name
         self.till = till
         self.drinks = []
+        self.customers_in_pub = []
 
     def increase_till(self, amount):
         self.till += amount
@@ -13,15 +14,20 @@ class Pub:
     def add_drink_to_stock(self, drink):
         self.drinks.append(drink)
 
+    def check_customer_age (self, customer):
+        if customer.age >= 18:
+            # self.customers_in_pub.append(customer)
+            return True
+        else:
+            return False
+
     
     def customer_order(self, drink_name, customer):
-        # print(drink_name)
-        # print(customer)
         drink_price = 0
-        for item in self.drinks:
-            if item.name == drink_name:
-                drink_price = item.price
-        
-        # print(drink_price)
-        self.increase_till(drink_price)
-        customer.reduce_wallet(drink_price)
+        if self.check_customer_age(customer):
+            for item in self.drinks:
+                if item.name == drink_name:
+                    drink_price = item.price
+
+            self.increase_till(drink_price)
+            customer.reduce_wallet(drink_price)
