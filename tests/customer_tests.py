@@ -12,5 +12,9 @@ class TestCustomer(unittest.TestCase):
     def test_customer_has_wallet(self):
         self.assertEqual(50, self.customer.wallet)
 
+    def test_reduce_customer_wallet(self):
+        new_customer_wallet = self.customer.reduce_wallet(10)
+        self.assertEqual(40, self.customer.wallet)
+
 
     
