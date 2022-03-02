@@ -21,13 +21,22 @@ class Pub:
         else:
             return False
 
+    def check_drunknness(self, customer):
+        if customer.drunkenness < 6:
+            return True
+        else:
+            return False
+
     
     def customer_order(self, drink_name, customer):
         drink_price = 0
-        if self.check_customer_age(customer):
+        drink_level = 0
+        if self.check_customer_age(customer) and self.check_drunknness(customer):
             for item in self.drinks:
                 if item.name == drink_name:
                     drink_price = item.price
+                    drink_level = item.alcohol_level
 
+            customer.increase_drunkenness(drink_level)
             self.increase_till(drink_price)
             customer.reduce_wallet(drink_price)

@@ -5,10 +5,10 @@ from src.customer import Customer
 
 class TestPub(unittest.TestCase):
     def setUp(self):
-        self.drink = Drinks("whisky", 5)
-        self.drink2 = Drinks("vodka", 4)
+        self.drink = Drinks("whisky", 5, 3)
+        self.drink2 = Drinks("vodka", 4, 2)
         self.pub = Pub("The Prancing Pony", 100.000)
-        self.customer = Customer("Matt", 30, 16)
+        self.customer = Customer("Matt", 30, 20)
         self.pub.add_drink_to_stock(self.drink)
         self.pub.add_drink_to_stock(self.drink2)
         
@@ -41,5 +41,20 @@ class TestPub(unittest.TestCase):
         check_id = self.pub.check_customer_age(self.customer)
         self.assertEqual(True, check_id)
 
+    def test_drunkenness(self):
+        self.pub.customer_order("whisky", self.customer)
+        self.assertEqual(3, self.customer.drunkenness)
 
+    def test_drunkenness_level(self):
+        self.pub.customer_order("whisky", self.customer)
+        self.pub.customer_order("whisky", self.customer)
+        self.pub.customer_order("whisky", self.customer)
+        is_customer_drunk = self.pub.check_drunknness(self.customer)
+        self.assertEqual(False, is_customer_drunk)
 
+    def test_drunkenness(self):
+        self.pub.customer_order("whisky", self.customer)
+        self.pub.customer_order("vodka", self.customer)
+        self.pub.customer_order("whisky", self.customer)
+        self.pub.customer_order("whisky", self.customer)
+        self.assertEqual(5, self.customer.drunkenness)
